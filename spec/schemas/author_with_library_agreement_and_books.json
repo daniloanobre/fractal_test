@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "required": ["id", "name", "email", "writing_style"],
+  "properties": {
+    "id": { "type": "integer" },
+    "name": { "type": "string" },
+    "email": { "type": "string" },
+    "writing_style": { "type": "string" },
+    "library_agreement": { "$ref": "library_agreement.json" },
+    "books": {
+      "type": "array",
+      "projects": {"$ref": "book.json"}
+    }
+  }
+}

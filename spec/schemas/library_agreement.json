@@ -1,0 +1,19 @@
+{
+  "type" : "object",
+  "required": [
+    "id",
+    "starting_date",
+    "duration"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "starting_date": {
+      "type": "string"
+    },
+    "duration": {
+      "type": "integer"
+    }
+  }
+}
