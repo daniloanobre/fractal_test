@@ -7,8 +7,10 @@ Fractal Tecnologia back-end test.
 
 * **[Docker 17.05.0-ce](https://www.docker.com/)**
 * **[docker-compose 1.11.2](https://docs.docker.com/compose/)**
-
+  
 ### Installation ###
+
+  - Before run the commands below, create and update .env.development, .env.test and config/application.yml files according to the samples.
 
   - user@user:~/path_to_cloned_folder$ **make build**
   - user@user:~/path_to_cloned_folder$ **make create-db**
@@ -34,10 +36,11 @@ Fractal Tecnologia back-end test.
 | -----------------------------------------|-----------|----------------------------------------------------- 
 |    Swagger Docs                          |   `GET`   | /v1/docs(.:format)              
 |    List authors                          |   `GET`   | /v1/authors(.:format)           
+|    List authors searching by string      |   `GET`   | /v1/authors?starts_with=<letter>(.:format)           
 |    Create author                         |   `POST`  | /v1/authors(.:format)           
 |    Read author                           |   `GET`   | /v1/authors/:id(.:format)       
-|    Update product                        |   `PATCH` | /v1/authors/:id(.:format)       
-|    Update product                        |   `PUT`   | /v1/authors/:id(.:format)       
+|    Update author                         |   `PATCH` | /v1/authors/:id(.:format)       
+|    Update author                         |   `PUT`   | /v1/authors/:id(.:format)       
 |    Delete author                         |   `DELETE`| /v1/authors/:id(.:format)       
 |    List books of one author              |   `GET`   | /v1/authors/:id/books(.:format) 
 
