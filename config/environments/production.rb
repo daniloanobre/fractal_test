@@ -55,6 +55,21 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "fractal_test_#{Rails.env}"
   config.action_mailer.perform_caching = false
 
+  # Use for setting send method.
+  config.action_mailer.delivery_method = :smtp
+  # Use for setting smtp configurations.
+  config.action_mailer.smtp_settings = {
+    address: ENV["smtp_address"],
+    port: 587,
+    domain: ENV["smtp_domain"],
+    authentication: "plain",
+    enable_starttls_auto: true,
+    user_name: ENV["smtp_username"],
+    password: ENV["smtp_password"]
+  }
+  # Use for devise password recovery.
+  config.action_mailer.default_url_options = { host: ENV["app_host"] }
+
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false

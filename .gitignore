@@ -17,3 +17,11 @@
 # rubycritic
 tmp/
 public/packs/
+
+.env.development
+.env.test
+
+.git
+config/application.yml
+
+public/swagger.json

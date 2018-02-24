@@ -1,0 +1,11 @@
+{
+  "name": "fractal_test",
+  "version": "1.0.0",
+  "description": "Fractal Test",
+  "repository": "https://github.com/daniloanobre/fractal_test.git",
+  "author": "Danilo Assis Nobre dos Santos Silva <silva.danilo.nobre@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "swagger-ui-dist": "^3.4.2"
+  }
+}

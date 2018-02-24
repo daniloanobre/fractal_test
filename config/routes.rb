@@ -1,5 +1,13 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  scope module: :api do
+    namespace "v1" do
+      # Documentation
+      resources :docs, only: [:index]
+
+      resources :authors
+      get "authors/:id/books/", to: "authors#books"
+    end
+  end
 end

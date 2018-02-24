@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  fractal_test:
+    build: .
+    command: make run
+    volumes:
+      - .:/var/www/fractal_test
+      - bundle-data:/var/www/bundle
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgresdb
+      - redis
+
+  postgresdb:
+    image: postgres:9.6
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    env_file: .env.development
+
+  redis:
+    image: redis:latest
+    volumes:
+      - redis-data:/data
+
+  sidekiq:
+    command: make sidekiq
+    volumes:
+      - .:/var/www/fractal_test
+      - bundle-data:/var/www/bundle
+    depends_on:
+      - 'postgresdb'
+      - 'redis'
+    build: .
+
+  swaggereditor:
+    image: swaggerapi/swagger-editor
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres-data:
+    driver: local
+  redis-data:
+    driver: local
+  bundle-data:
+    driver: local

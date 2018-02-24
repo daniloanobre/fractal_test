@@ -18,15 +18,19 @@ gem "puma", "~> 3.7"
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+# gem "bcrypt", "~> 3.1.7"
 # Simple, easyfficient background processing for Ruby
 gem "sidekiq"
 # Generates swagger-ui json files for Rails APIs with a simple DSL.
 gem "swagger-blocks"
 # A lightning fast JSON:API serializer for Ruby Objects.
-gem "fast_jsonapi"
+# gem "fast_jsonapi"
+gem "active_model_serializers"
 # Shim to load environment variables from .env into ENV in development
 gem "dotenv-rails"
+# gem "delayed_job_active_record"
+gem "sidekiq"
+gem "figaro"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
