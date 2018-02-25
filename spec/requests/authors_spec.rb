@@ -64,88 +64,50 @@ RSpec.describe "Authors", type: :request do
       context "invalid_author_attrs" do
         describe "invalid author params" do
           before(:each) { post v1_authors_path, params: invalid_author_attrs }
-
           it_behaves_like "a unprocessable error", :authors
         end
       end
     end
 
     describe "/v1/authors/id" do
-    let(:author) { create(:author) }
+      let(:author) { create(:author) }
 
-    context "GET" do
-      context "valid_author_attrs" do
-        before(:each) { get v1_author_path(author.id) }
+      context "GET" do
+        context "valid_author_attrs" do
+          before(:each) { get v1_author_path(author.id) }
 
-        it "should be returns success" do
-          expect(response.content_type).to eq("application/json")
-          expect(response).to have_http_status(200)
+          it "should be returns success" do
+            expect(response.content_type).to eq("application/json")
+            expect(response).to have_http_status(200)
+          end
+
+          it "validate serializer" do
+            expect(response).to match_response_schema("author_with_library_agreement_and_books")
+          end
+
+          it "should be returns an author" do
+            expect(response.body).not_to be_blank
+            expect(JSON.parse(response.body)).not_to be_empty
+          end
+
+          it_behaves_like "an author with library agreement and books attributes" do
+            let(:body) { JSON.parse(response.body) }
+            let(:attrs) { { "author": author }.as_json }
+          end
         end
 
-        it "validate serializer" do
-          expect(response).to match_response_schema("author_with_library_agreement_and_books")
-        end
-
-        it "should be returns an author" do
-          expect(response.body).not_to be_blank
-          expect(JSON.parse(response.body)).not_to be_empty
-        end
-
-        it_behaves_like "an author with library agreement and books attributes" do
-          let(:body) { JSON.parse(response.body) }
-          let(:attrs) { { "author": author }.as_json }
-        end
-      end
-
-      context "invalid_author_attrs" do
-        before(:each) { get v1_author_path(1000) }
-
-        it_behaves_like "a not found error", :author, 1000
-      end
-    end
-
-    context "PUT" do
-      let(:new_valid_author_attrs) { valid_author_attrs }
-
-      context "valid_author_attrs" do
-        before(:each) { put v1_author_path(author.id), params: new_valid_author_attrs }
-
-        it "should be returns success" do
-          expect(response.content_type).to eq("application/json")
-          expect(response).to have_http_status(200)
-        end
-
-        it "validate serializer" do
-          expect(response).to match_response_schema("author_with_library_agreement_and_books")
-        end
-
-        it_behaves_like "an author with library agreement and books attributes" do
-          let(:body) { JSON.parse(response.body) }
-          let(:attrs) { new_valid_author_attrs.as_json }
-        end
-      end
-
-      context "invalid_author_attrs" do
-        describe "invalid id" do
-          before(:each) { put v1_author_path(1000), params: new_valid_author_attrs }
+        context "invalid_author_attrs" do
+          before(:each) { get v1_author_path(1000) }
 
           it_behaves_like "a not found error", :author, 1000
         end
-
-        describe "invalid params" do
-          before(:each) { put v1_author_path(author.id), params: invalid_author_attrs }
-
-          it_behaves_like "a unprocessable error", :author
-        end
       end
-    end
 
-    context "PATCH" do
-      let(:new_valid_author_attrs) { valid_author_attrs }
+      context "PUT" do
+        let(:new_valid_author_attrs) { valid_author_attrs }
 
-      context "when logged in" do
         context "valid_author_attrs" do
-          before(:each) { patch v1_author_path(author.id), params: new_valid_author_attrs }
+          before(:each) { put v1_author_path(author.id), params: new_valid_author_attrs }
 
           it "should be returns success" do
             expect(response.content_type).to eq("application/json")
@@ -164,36 +126,73 @@ RSpec.describe "Authors", type: :request do
 
         context "invalid_author_attrs" do
           describe "invalid id" do
-            before(:each) { patch v1_author_path(1000), params: new_valid_author_attrs }
+            before(:each) { put v1_author_path(1000), params: new_valid_author_attrs }
 
             it_behaves_like "a not found error", :author, 1000
           end
 
           describe "invalid params" do
-            before(:each) { patch v1_author_path(author.id), params: invalid_author_attrs }
+            before(:each) { put v1_author_path(author.id), params: invalid_author_attrs }
 
             it_behaves_like "a unprocessable error", :author
           end
         end
       end
-    end
 
-    context "DELETE" do
-      context "valid_author_attrs" do
-        before(:each) { delete v1_author_path(author.id) }
+      context "PATCH" do
+        let(:new_valid_author_attrs) { valid_author_attrs }
 
-        it "should destroy a author" do
-          expect(response.body).to be_empty
-          expect(response).to have_http_status(204)
+        context "when logged in" do
+          context "valid_author_attrs" do
+            before(:each) { patch v1_author_path(author.id), params: new_valid_author_attrs }
+
+            it "should be returns success" do
+              expect(response.content_type).to eq("application/json")
+              expect(response).to have_http_status(200)
+            end
+
+            it "validate serializer" do
+              expect(response).to match_response_schema("author_with_library_agreement_and_books")
+            end
+
+            it_behaves_like "an author with library agreement and books attributes" do
+              let(:body) { JSON.parse(response.body) }
+              let(:attrs) { new_valid_author_attrs.as_json }
+            end
+          end
+
+          context "invalid_author_attrs" do
+            describe "invalid id" do
+              before(:each) { patch v1_author_path(1000), params: new_valid_author_attrs }
+
+              it_behaves_like "a not found error", :author, 1000
+            end
+
+            describe "invalid params" do
+              before(:each) { patch v1_author_path(author.id), params: invalid_author_attrs }
+
+              it_behaves_like "a unprocessable error", :author
+            end
+          end
         end
       end
 
-      context "invalid_author_attrs" do
-        before(:each) { delete v1_author_path(1000) }
+      context "DELETE" do
+        context "valid_author_attrs" do
+          before(:each) { delete v1_author_path(author.id) }
 
-        it_behaves_like "a not found error", :author, 1000
+          it "should destroy a author" do
+            expect(response.body).to be_empty
+            expect(response).to have_http_status(204)
+          end
+        end
+
+        context "invalid_author_attrs" do
+          before(:each) { delete v1_author_path(1000) }
+
+          it_behaves_like "a not found error", :author, 1000
+        end
       end
     end
-  end
   end
 end

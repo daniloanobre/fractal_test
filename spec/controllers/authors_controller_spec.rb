@@ -4,6 +4,7 @@ require "rails_helper"
 
 RSpec.describe Api::V1::AuthorsController, type: :controller do
   let(:valid_attributes) { build(:author).attributes }
+  let(:valid_book_attributes) { build(:book).attributes }
   let(:invalid_attributes) {
     build(:author, name: nil).attributes
     build(:author, email: nil).attributes
@@ -21,6 +22,43 @@ RSpec.describe Api::V1::AuthorsController, type: :controller do
 
     it "assigns all authors as @authors" do
       expect(assigns(:authors)).to include(@author)
+    end
+  end
+
+  describe "GET #books" do
+    context "with valid params" do
+      before { @author = Author.create! valid_attributes }
+      before { @book = Book.create! valid_book_attributes }
+      before(:each) { get :books, params: { id: @author.to_param } }
+
+      it "returns a success response" do
+        expect(response).to be_success
+        expect(response.content_type).to eq "application/json"
+      end
+
+      it "assigns the requested author.books as @author.books" do
+        expect(response.body).not_to be_blank
+        expect(assigns(:author).books).to eq(@author.books)
+      end
+
+      it "exists license agreement in author" do
+        expect(response.body).not_to be_blank
+        expect(assigns(:author).library_agreement).to eq(@author.library_agreement)
+      end
+    end
+
+    context "with invalid params" do
+      before(:each) { get :books, params: { id: 3 } }
+
+      it "returns a not found response" do
+        expect(response).to be_not_found
+        expect(response.content_type).to eq "application/json"
+      end
+
+      it "assigns the requested author as nil" do
+        expect(response.body).not_to be_blank
+        expect(assigns(:author)).to be_nil
+      end
     end
   end
 
