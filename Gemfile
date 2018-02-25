@@ -31,6 +31,11 @@ gem "dotenv-rails"
 # gem "delayed_job_active_record"
 gem "sidekiq"
 gem "figaro"
+# Provides a full set of stores (Cache, Session, HTTP Cache)
+gem "redis"
+gem "redis-namespace"
+gem "redis-rails"
+gem "redis-rack-cache"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -77,10 +82,13 @@ group :test do
   # Use for codeclimate test coverage
   gem "codeclimate-test-reporter", "~> 1.0.0"
   gem "simplecov", require: false
+  gem "simplecov-console", require: false
   # Collection of testing matchers
   gem "shoulda-matchers", "~> 3.1"
   # Validate the JSON returned by your Rails JSON APIs
   gem "json_matchers"
+  # Code coverage analysis tool for Ruby
+  gem "simplecov", require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

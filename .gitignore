@@ -25,3 +25,4 @@ public/packs/
 config/application.yml
 
 public/swagger.json
+coverage/

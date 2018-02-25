@@ -2,11 +2,16 @@
 
 module Api::V1
   class AuthorsController < ApplicationController
+    include AuthorsHelper
     before_action :set_author, only: [:show, :update, :destroy, :books]
 
     # GET /authors
     def index
+      # without cache
       @authors = Author.where("name LIKE ?", "#{params[:starts_with]}%")
+
+      # with cache
+      # fetch_authors
 
       render json: @authors
     end

@@ -15,6 +15,11 @@
 # it.
 
 require "json_matchers/rspec"
+require "simplecov"
+require "simplecov-console"
+
+SimpleCov.formatter = SimpleCov::Formatter::HTMLFormatter
+SimpleCov.start
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
