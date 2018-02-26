@@ -7,12 +7,9 @@ module Api::V1
 
     # GET /authors
     def index
-      # without cache
-      # @authors = Author.where("name LIKE ?", "#{params[:starts_with]}%")
-
       search = params[:keywords].present? ? params[:keywords] : '*'
       @authors = Author.search(search, fields: [:name, :email], match: :word_start)
-      
+
       # with cache
       # fetch_authors
 
