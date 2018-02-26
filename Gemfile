@@ -36,6 +36,8 @@ gem "redis"
 gem "redis-namespace"
 gem "redis-rails"
 gem "redis-rack-cache"
+# Intelligent search made easy with Rails and Elasticsearch
+gem 'searchkick'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

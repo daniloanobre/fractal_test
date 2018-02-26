@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+
+  require 'sidekiq/web'
+  mount Sidekiq::Web, at: '/schedules', as: 'sidekiq_web'
   scope module: :api do
     namespace "v1" do
       # Documentation

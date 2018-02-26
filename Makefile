@@ -51,3 +51,6 @@ rspec-tests:
 sidekiq:
 	bundle install
 	bundle exec sidekiq -C config/sidekiq.yml
+
+searchkick_reindex:
+	${DCMP_EXEC_APP} rails searchkick:reindex:all

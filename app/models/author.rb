@@ -12,4 +12,13 @@ class Author < ApplicationRecord
   validates :name, presence: true
   validates :email, uniqueness: true, presence: true, format: { with: EMAIL }
   validates :writing_style, presence: true
+
+  searchkick word_start: [:name, :email]
+
+  def search_data
+    {
+      name: name,
+      email: email
+    }
+  end
 end

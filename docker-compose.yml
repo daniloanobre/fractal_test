@@ -12,6 +12,28 @@ services:
     depends_on:
       - postgresdb
       - redis
+      - elasticsearch
+    links:
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+
+
+  # elasticsearch:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:6.2.2
+  #   environment:
+  #     - xpack.security.enabled=false
+  #     - xpack.monitoring.enabled=false
+  #   ports:
+  #     - "9300:9300"
+  #   volumes:
+  #     - "es-data:/usr/share/elasticsearch/data"
+
+  elasticsearch:
+    # docker run -d -p 9200:9200 -v "$PWD/esdata":/usr/share/elasticsearch/data elasticsearch
+    image: elasticsearch
+    ports:
+      - "9200:9200"
 
   postgresdb:
     image: postgres:9.6
@@ -34,6 +56,7 @@ services:
     depends_on:
       - 'postgresdb'
       - 'redis'
+      - 'elasticsearch'
     build: .
 
   swaggereditor:
