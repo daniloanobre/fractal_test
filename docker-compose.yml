@@ -7,8 +7,8 @@ services:
     volumes:
       - .:/var/www/fractal_test
       - bundle-data:/var/www/bundle
-    ports:
-      - "3000:3000"
+    # ports:
+    #   - "3000:3000"
     depends_on:
       - postgresdb
       - redis
@@ -18,19 +18,17 @@ services:
     environment:
       - ELASTICSEARCH_URL=http://elasticsearch:9200
 
-
-  # elasticsearch:
-  #   image: docker.elastic.co/elasticsearch/elasticsearch:6.2.2
-  #   environment:
-  #     - xpack.security.enabled=false
-  #     - xpack.monitoring.enabled=false
-  #   ports:
-  #     - "9300:9300"
-  #   volumes:
-  #     - "es-data:/usr/share/elasticsearch/data"
+  web:
+    image: nginx
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    depends_on:
+    - fractal_test
+    ports:
+    - 80:80
 
   elasticsearch:
-    # docker run -d -p 9200:9200 -v "$PWD/esdata":/usr/share/elasticsearch/data elasticsearch
     image: elasticsearch
     ports:
       - "9200:9200"
